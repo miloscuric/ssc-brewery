@@ -19,11 +19,20 @@ public class PasswordEncodingTests {
 
     @Test
     void testBcrypt15() {
+        //promjeniti na 15 ako je potrebno kompleksnije kriptovanje
         PasswordEncoder bcrypt = new BCryptPasswordEncoder(10);
 
         System.out.println(bcrypt.encode(PASSWORD));
         System.out.println(bcrypt.encode(PASSWORD));
         System.out.println(bcrypt.encode("tiger"));
+
+    }
+    @Test
+    void testBcryptMilos() {
+        //promjeniti na 15 ako je potrebno kompleksnije kriptovanje
+        PasswordEncoder bcrypt = new BCryptPasswordEncoder(10);
+
+        System.out.println(bcrypt.encode(PASSWORD));
 
     }
 

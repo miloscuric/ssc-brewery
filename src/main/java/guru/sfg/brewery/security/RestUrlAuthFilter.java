@@ -9,17 +9,17 @@ import javax.servlet.http.HttpServletRequest;
  * Created by jt on 6/19/20.
  */
 @Slf4j
-public class RestHeaderAuthFilter extends AbstractRestAuthFilter {
+public class RestUrlAuthFilter extends AbstractRestAuthFilter {
 
-    public RestHeaderAuthFilter(RequestMatcher requiresAuthenticationRequestMatcher) {
+    public RestUrlAuthFilter(RequestMatcher requiresAuthenticationRequestMatcher) {
         super(requiresAuthenticationRequestMatcher);
     }
-
+    
     protected String getPassword(HttpServletRequest request) {
-        return request.getHeader("Api-Secret");
+        return request.getParameter("Api-Secret");
     }
 
     protected String getUsername(HttpServletRequest request) {
-        return request.getHeader("Api-Key");
+        return request.getParameter("Api-Key");
     }
 }

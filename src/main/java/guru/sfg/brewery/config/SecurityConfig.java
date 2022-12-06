@@ -1,6 +1,7 @@
 package guru.sfg.brewery.config;
 
 import guru.sfg.brewery.security.RestHeaderAuthFilter;
+import guru.sfg.brewery.security.RestUrlAuthFilter;
 import guru.sfg.brewery.security.SfgPasswordEncoderFactories;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,11 +28,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return filter;
     }
 
+    public RestUrlAuthFilter restUrlAuthFilter(AuthenticationManager authenticationManager){
+        RestUrlAuthFilter filter = new RestUrlAuthFilter(new AntPathRequestMatcher("/api/**"));
+        filter.setAuthenticationManager(authenticationManager);
+        return filter;
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
+                //dodavanje custom header logovanja
                 http.addFilterBefore(restHeaderAuthFilter(authenticationManager()),
                         UsernamePasswordAuthenticationFilter.class)
                 .csrf().disable();
+
+                //dodavanje custom param logovanja
+                http.addFilterBefore(restUrlAuthFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class);
 
                 http
                 .authorizeRequests(authorize -> {
@@ -65,6 +77,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .roles("USER");
 
         auth.inMemoryAuthentication().withUser("scott").password("{bcrypt10}$2a$10$jv7rEbL65k4Q3d/mqG5MLuLDLTlg5oKoq2QOOojfB3e2awo.nlmgu").roles("CUSTOMER");
+        auth.inMemoryAuthentication().withUser("milos").password("{bcrypt10}$2a$10$cVqoWBhwSNER8cUOzR.60OQQSPs2dQI51pCiDbw0XQcXgphGH8Cde").roles("CUSTOMER");
     }
 
     //    @Override

@@ -30,6 +30,33 @@ public class BeerRestControllerIT extends BaseIT {
     }
 
     @Test
+    void deleteBeerBadCredsUrlParam() throws Exception{
+        mockMvc.perform(delete("/api/v1/beer/97df0c39-90c4-4ae0-b663-453e8e19c311")
+                        .param("Api-Key","spring").param("Api-Secret", "guruXXXX"))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void deleteBeerUrlParam() throws Exception {
+        mockMvc.perform(delete("/api/v1/beer/97df0c39-90c4-4ae0-b663-453e8e19c311")
+                        .param("Api-Key", "spring").param("Api-Secret", "guru"))
+                .andExpect(status().isOk());
+    }
+    @Test
+    void deleteBeerUrlParamWrongPass() throws Exception {
+        mockMvc.perform(delete("/api/v1/beer/97df0c39-90c4-4ae0-b663-453e8e19c311")
+                        .param("Api-Key", "spring").param("Api-Secret", "AAAAAAAAA"))
+                .andExpect(status().isUnauthorized());
+    }
+    @Test
+    void deleteBeerUrlParamMilos() throws Exception {
+        //encode bcrypt10 koristeno iz klase PasswordEncodingTests
+        mockMvc.perform(delete("/api/v1/beer/97df0c39-90c4-4ae0-b663-453e8e19c311")
+                        .param("Api-Key", "milos").param("Api-Secret", "password"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
     void deleteBeerHttpBasic() throws Exception{
         mockMvc.perform(delete("/api/v1/beer/97df0c39-90c4-4ae0-b663-453e8e19c311")
                 .with(httpBasic("spring", "guru")))
