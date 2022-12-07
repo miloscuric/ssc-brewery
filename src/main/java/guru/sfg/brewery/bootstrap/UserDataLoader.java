@@ -14,8 +14,8 @@ import org.springframework.stereotype.Component;
  * Created by jt on 6/21/20.
  */
 @Slf4j
-@RequiredArgsConstructor
-@Component
+@RequiredArgsConstructor //Dodava neophodne konstruktore, ne moram dodatvati autowared
+@Component //CommandLine sluzi za inicijano ucitavavanje prije pokretanja app
 public class UserDataLoader implements CommandLineRunner {
 
     private final AuthorityRepository authorityRepository;

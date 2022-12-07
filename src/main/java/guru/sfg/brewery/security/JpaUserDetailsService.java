@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @RequiredArgsConstructor
-@Service
+@Service // Spring security ce prepoznati implementaciju i nije potrebno dodatno podesavati u config
 public class JpaUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
